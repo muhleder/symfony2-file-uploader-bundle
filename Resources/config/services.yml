@@ -59,8 +59,12 @@ parameters:
       folder: large
       max_width: 1140
       max_height: 1140
+    preview:
+      folder: preview
+      max_width: 640
+      max_height: 1500
     cover:
-      folder: large
+      folder: cover
       max_width: 640
       max_height: 314
 
