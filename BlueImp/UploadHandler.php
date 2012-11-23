@@ -256,7 +256,32 @@ class UploadHandler
                 $file_name = $this->upcount_name($file_name);
             }
         }
-        return $file_name;
+        return $this->sanitize_file_name($file_name);
+    }
+
+
+    /**
+     * http://stackoverflow.com/questions/2668854/sanitizing-strings-to-make-them-url-and-filename-safe
+     * From Wordpress
+     * Sanitizes a filename replacing whitespace with dashes
+     *
+     * Removes special characters that are illegal in filenames on certain
+     * operating systems and special characters requiring special escaping
+     * to manipulate at the command line. Replaces spaces and consecutive
+     * dashes with a single dash. Trim period, dash and underscore from beginning
+     * and end of filename.
+     *
+     * @since 2.1.0
+     *
+     * @param string $filename The filename to be sanitized
+     * @return string The sanitized filename
+     */
+    protected  function sanitize_file_name( $filename ) {
+        $special_chars = array("?", "[", "]", "/", "\\", "=", "<", ">", ":", ";", ",", "'", "\"", "&", "$", "#", "*", "(", ")", "|", "~", "`", "!", "{", "}");
+        $filename = str_replace($special_chars, '', $filename);
+        $filename = preg_replace('/[\s-]+/', '-', $filename);
+        $filename = trim($filename, '.-_');
+        return $filename;
     }
 
     protected function handle_form_data($file, $index) {
